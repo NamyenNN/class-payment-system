@@ -42,14 +42,19 @@ async function adminLogin(){
 
 
             localStorage.setItem(
+
                 "adminLogin",
+
                 "true"
+
             );
 
 
 
+            // ไปหน้า Admin Dashboard
+
             window.location.href =
-            "admin.html";
+            "admin-panel.html";
 
 
         }
@@ -65,6 +70,7 @@ async function adminLogin(){
 
 
     }
+
     catch(err){
 
 
