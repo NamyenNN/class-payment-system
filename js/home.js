@@ -1,12 +1,11 @@
 window.onload = async function () {
 
-    // โหลดข้อมูล LINE
+
     const user = JSON.parse(
         localStorage.getItem("lineUser")
     );
 
 
-    // ถ้าไม่มีข้อมูล LINE ให้กลับไป Login
     if(!user){
 
         window.location.href = "index.html";
@@ -22,7 +21,6 @@ window.onload = async function () {
 
 
 
-    // แสดงรูปโปรไฟล์
     if(user.pictureUrl){
 
         document.getElementById("avatar").src =
@@ -32,7 +30,6 @@ window.onload = async function () {
 
 
 
-    // โหลดรายการบิล
     loadBills();
 
 
@@ -42,12 +39,23 @@ window.onload = async function () {
 
 
 
+
 async function loadBills() {
+
 
     try {
 
 
-        const res = await fetch(
+        const user =
+        JSON.parse(
+            localStorage.getItem("lineUser")
+        );
+
+
+
+        // โหลดรายการบิล
+
+        const billRes = await fetch(
 
             CONFIG.GAS_URL +
 
@@ -56,12 +64,15 @@ async function loadBills() {
         );
 
 
-        const result = await res.json();
+
+        const billResult =
+        await billRes.json();
+
 
 
 
         const billList =
-            document.getElementById("billList");
+        document.getElementById("billList");
 
 
 
@@ -69,11 +80,12 @@ async function loadBills() {
 
 
 
-        if(result.status !== "success"){
+
+        if(billResult.status !== "success"){
 
 
             billList.innerHTML =
-                "<p>ไม่พบข้อมูลรายการชำระเงิน</p>";
+            "<p>ไม่พบข้อมูลรายการชำระเงิน</p>";
 
             return;
 
@@ -83,20 +95,120 @@ async function loadBills() {
 
 
 
-        if(result.bills.length === 0){
+        // โหลดประวัติการจ่ายของนักศึกษา
+
+        const paymentRes = await fetch(
+
+            CONFIG.GAS_URL +
+
+            "?action=getPayments&studentId=" +
+
+            encodeURIComponent(user.studentID || "")
+
+        );
 
 
-            billList.innerHTML =
-                "<p>ยังไม่มีรายการชำระเงิน</p>";
 
-            return;
-
-        }
+        const paymentResult =
+        await paymentRes.json();
 
 
 
+        const payments =
+        paymentResult.payments || [];
 
-        result.bills.forEach(bill => {
+
+
+
+
+
+
+        billResult.bills.forEach(bill => {
+
+
+
+            const payment = payments.find(
+
+                p =>
+
+                p.BillID == bill.BillID
+
+            );
+
+
+
+            let button = "";
+
+
+
+            if(payment){
+
+
+                if(payment.Status === "รอตรวจสอบ"){
+
+
+                    button = `
+
+                    <button disabled>
+
+                        รอตรวจสอบ
+
+                    </button>
+
+                    `;
+
+
+                }
+                else if(payment.Status === "ผ่าน"){
+
+
+                    button = `
+
+                    <button disabled>
+
+                        ชำระแล้ว ✅
+
+                    </button>
+
+                    `;
+
+
+                }
+                else{
+
+
+                    button = `
+
+                    <button onclick="openBill('${bill.BillID}')">
+
+                        ชำระใหม่
+
+                    </button>
+
+                    `;
+
+
+                }
+
+
+            }
+            else{
+
+
+                button = `
+
+                <button onclick="openBill('${bill.BillID}')">
+
+                    ชำระเงิน
+
+                </button>
+
+                `;
+
+
+            }
+
+
 
 
 
@@ -125,11 +237,7 @@ async function loadBills() {
 
 
 
-                <button onclick="openBill('${bill.BillID}')">
-
-                    ชำระเงิน
-
-                </button>
+                ${button}
 
 
             </div>
@@ -138,7 +246,10 @@ async function loadBills() {
             `;
 
 
+
         });
+
+
 
 
 
@@ -150,7 +261,8 @@ async function loadBills() {
 
 
         document.getElementById("billList").innerHTML =
-            "<p>โหลดข้อมูลไม่สำเร็จ</p>";
+
+        "<p>โหลดข้อมูลไม่สำเร็จ</p>";
 
 
     }
