@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ชำระเงิน</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>ชำระเงิน</h2>
+
+    <div class="bill-card">
+
+        <h3 id="title">กำลังโหลด...</h3>
+
+        <p>
+            จำนวนเงิน :
+            <strong id="amount">-</strong>
+            บาท
+        </p>
+
+        <p>
+            ครบกำหนด :
+            <span id="dueDate">-</span>
+        </p>
+
+    </div>
+
+    <hr>
+
+    <h3>QR พร้อมเพย์</h3>
+
+    <img
+        id="qrImage"
+        src=""
+        width="250"
+        alt="QR Code">
+
+    <br><br>
+
+    <input
+        type="file"
+        id="slip"
+        accept="image/*">
+
+    <br><br>
+
+    <button onclick="uploadPayment()">
+        ส่งสลิป
+    </button>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/bill.js"></script>
+
+</body>
+
+</html>
