@@ -1,55 +1,78 @@
 async function initLINE(){
 
-  await liff.init({
-    liffId: CONFIG.LIFF_ID
-  });
+
+try{
 
 
-  if(!liff.isLoggedIn()){
+await liff.init({
 
-    liff.login();
+liffId: CONFIG.LIFF_ID
 
-    return;
-
-  }
-
-
-  const profile = await liff.getProfile();
+});
 
 
 
-  const user = {
+if(!liff.isLoggedIn()){
 
-    action:"registerLine",
+liff.login();
 
-    lineUserID: profile.userId,
+return;
 
-    displayName: profile.displayName,
-
-    studentID:""
-
-  };
+}
 
 
 
-  await fetch(CONFIG.GAS_URL,{
-
-    method:"POST",
-
-    body:JSON.stringify(user)
-
-  });
+const profile = await liff.getProfile();
 
 
 
-  localStorage.setItem(
-    "lineUser",
-    JSON.stringify(user)
-  );
+document.getElementById("status").innerHTML =
+"สวัสดี "+profile.displayName;
 
 
 
-  window.location.href="home.html";
+const data = {
+
+action:"registerLine",
+
+lineUserID:profile.userId,
+
+displayName:profile.displayName,
+
+studentID:""
+
+};
+
+
+
+await postData(data);
+
+
+
+localStorage.setItem(
+"lineUser",
+JSON.stringify(data)
+);
+
+
+
+setTimeout(()=>{
+
+location.href="home.html";
+
+},1000);
+
+
+
+}catch(err){
+
+
+document.getElementById("status").innerHTML =
+err;
+
+
+}
+
 
 
 }
