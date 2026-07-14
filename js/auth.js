@@ -24,52 +24,29 @@ async function initLINE() {
 
 
 
-        const data = {
-
-            action: "registerLine",
+        // เก็บข้อมูล LINE ไว้ก่อน
+        const user = {
 
             lineUserID: profile.userId,
 
             displayName: profile.displayName,
 
-            pictureUrl: profile.pictureUrl,
-
-            studentID: ""
+            pictureUrl: profile.pictureUrl
 
         };
 
 
 
-        // ส่งข้อมูลเข้า GAS
-        const result = await postData(data);
-
-
-
-        if (result.status !== "success") {
-
-            throw new Error(result.message);
-
-        }
-
-
-
-        // เก็บข้อมูล LINE
         localStorage.setItem(
             "lineUser",
-            JSON.stringify(data)
+            JSON.stringify(user)
         );
 
 
 
-        /*
-            เช็กว่ามีรหัสนักศึกษาหรือยัง
-
-            ตอนนี้ยังไม่มี
-            ให้ไปหน้ากรอกเลข นศ.
-        */
-
-
-        window.location.href = "register.html";
+        // ไปหน้ากรอกรหัสนักศึกษา
+        window.location.href =
+            "register.html";
 
 
 
