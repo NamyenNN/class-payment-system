@@ -1,69 +1,137 @@
 async function registerStudent(){
 
 
-const studentID =
-document.getElementById("studentID").value;
+    const studentID =
+    document.getElementById("studentID").value.trim();
 
 
 
-if(!studentID){
+    if(!studentID){
 
-alert("กรอกรหัสนักศึกษา");
+        alert("กรอกรหัสนักศึกษา");
 
-return;
+        return;
 
-}
-
-
-
-const user =
-JSON.parse(localStorage.getItem("lineUser"));
+    }
 
 
 
-const data = {
-
-action:"registerLine",
-
-lineUserID:user.lineUserID,
-
-displayName:user.displayName,
-
-studentID:studentID
-
-};
+    const user =
+    JSON.parse(localStorage.getItem("lineUser"));
 
 
 
-const result =
-await postData(data);
+    if(!user){
+
+        alert("ไม่พบข้อมูล LINE");
+
+        return;
+
+    }
 
 
 
-if(result.status==="success"){
+    try{
 
 
-user.studentID = studentID;
+        // เช็ก Student ใน Sheet
+
+        const check = await fetch(
+
+            CONFIG.GAS_URL +
+
+            "?action=getStudent&studentID=" +
+
+            encodeURIComponent(studentID)
+
+        );
 
 
-localStorage.setItem(
-"lineUser",
-JSON.stringify(user)
-);
+        const student =
+        await check.json();
 
 
 
-location.href="home.html";
+        if(student.status !== "success"){
 
 
-}
-else{
+            alert("ไม่พบรหัสนักศึกษา");
 
 
-alert(result.message);
+            return;
+
+        }
 
 
-}
+
+
+        // บันทึก LINE + StudentID
+
+        const data = {
+
+            action:"registerLine",
+
+            lineUserID:user.lineUserID,
+
+            displayName:user.displayName,
+
+            studentID:studentID
+
+        };
+
+
+
+        const result =
+        await postData(data);
+
+
+
+
+        if(result.status==="success"){
+
+
+            user.studentID = studentID;
+
+
+
+            localStorage.setItem(
+
+                "lineUser",
+
+                JSON.stringify(user)
+
+            );
+
+
+
+            alert("ลงทะเบียนสำเร็จ");
+
+
+            location.href="home.html";
+
+
+        }
+        else{
+
+
+            alert(result.message);
+
+
+        }
+
+
+
+    }
+    catch(err){
+
+
+        console.error(err);
+
+
+        alert("เกิดข้อผิดพลาด");
+
+
+    }
 
 
 }
