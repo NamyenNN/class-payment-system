@@ -40,7 +40,7 @@ async function registerStudent(){
 
             CONFIG.GAS_URL +
 
-            "?action=getStudent&studentID=" +
+            "?action=getStudent&studentId=" +
 
             encodeURIComponent(studentID)
 
