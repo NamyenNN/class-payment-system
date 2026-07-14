@@ -34,7 +34,7 @@ async function registerStudent(){
     try{
 
 
-        // ตรวจสอบรหัสนักศึกษาจาก Sheet
+        // เช็ก Student ใน Sheet
 
         const check = await fetch(
 
@@ -48,19 +48,30 @@ async function registerStudent(){
 
 
 
+        const studentText =
+        await check.text();
+
+
+
+        console.log(
+            "Student response:",
+            studentText
+        );
+
+
+
         const student =
-        await check.json();
-
-
-
-        console.log("Student check:", student);
+        JSON.parse(studentText);
 
 
 
         if(student.status !== "success"){
 
 
-            alert("ไม่พบรหัสนักศึกษา");
+            alert(
+                student.message ||
+                "ไม่พบรหัสนักศึกษา"
+            );
 
 
             return;
@@ -70,8 +81,7 @@ async function registerStudent(){
 
 
 
-
-        // ส่งข้อมูล LINE + รหัสนักศึกษา
+        // ส่งข้อมูล LINE + StudentID
 
         const data = {
 
@@ -89,7 +99,10 @@ async function registerStudent(){
 
 
 
-        console.log("Send register:", data);
+        console.log(
+            "Send register:",
+            data
+        );
 
 
 
@@ -98,8 +111,10 @@ async function registerStudent(){
 
 
 
-        console.log("Register result:", result);
-
+        console.log(
+            "Register result:",
+            result
+        );
 
 
 
@@ -121,7 +136,9 @@ async function registerStudent(){
 
 
 
-            alert("ลงทะเบียนสำเร็จ");
+            alert(
+                "ลงทะเบียนสำเร็จ"
+            );
 
 
 
@@ -129,14 +146,16 @@ async function registerStudent(){
             "home.html";
 
 
-
         }
         else{
 
 
             alert(
-                result.message || 
+
+                result.message ||
+
                 "ลงทะเบียนไม่สำเร็จ"
+
             );
 
 
@@ -155,8 +174,11 @@ async function registerStudent(){
 
 
         alert(
-            "เกิดข้อผิดพลาด\n\n" +
+
+            "ERROR:\n" +
+
             err.message
+
         );
 
 
