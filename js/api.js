@@ -1,26 +1,59 @@
 async function postData(data){
 
-    const res = await fetch(
+    try {
 
-        CONFIG.GAS_URL,
+        const res = await fetch(
 
-        {
-            method:"POST",
+            CONFIG.GAS_URL,
 
-            headers:{
-                "Content-Type":"text/plain;charset=utf-8"
-            },
+            {
+                method:"POST",
 
-            body:JSON.stringify(data)
+                headers:{
+                    "Content-Type":"text/plain;charset=utf-8"
+                },
+
+                body:JSON.stringify(data)
+
+            }
+
+        );
+
+
+        const text = await res.text();
+
+
+        console.log(
+            "GAS RESPONSE:",
+            text
+        );
+
+
+        if(!text){
+
+            throw new Error(
+                "GAS ไม่ส่งข้อมูลกลับมา"
+            );
 
         }
 
-    );
 
 
-    const text = await res.text();
+        return JSON.parse(text);
 
 
-    return JSON.parse(text);
+
+    }
+    catch(err){
+
+        console.error(
+            "POST ERROR:",
+            err
+        );
+
+
+        throw err;
+
+    }
 
 }
