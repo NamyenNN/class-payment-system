@@ -3,13 +3,13 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ชำระเงิน</title>
+<title>ชำระเงิน</title>
 
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -20,11 +20,15 @@
 <div class="container">
 
 
-    <h2>ชำระเงิน</h2>
-
-
-
     <div class="bill-card">
+
+
+        <h2>
+            💳 ชำระเงิน
+        </h2>
+
+
+        <hr>
 
 
         <h3 id="title">
@@ -34,20 +38,32 @@
 
 
         <p>
-            จำนวนเงิน :
-            <strong id="amount">
-                -
-            </strong>
-            บาท
+            💰 จำนวนเงิน
         </p>
 
 
+        <h1 style="text-align:center;color:#06c755;">
 
-        <p>
-            ครบกำหนด :
-            <span id="dueDate">
+            <span id="amount">
                 -
             </span>
+
+            บาท
+
+        </h1>
+
+
+
+        <p style="text-align:center;">
+
+            📅 ครบกำหนด
+
+            <br>
+
+            <b id="dueDate">
+                -
+            </b>
+
         </p>
 
 
@@ -56,73 +72,98 @@
 
 
 
-    <hr>
+
+    <div class="bill-card">
+
+
+        <h3>
+            📱 QR พร้อมเพย์
+        </h3>
+
+
+
+        <img
+
+            id="qrImage"
+
+            src=""
+
+            width="250"
+
+            alt="QR Code">
+
+
+        <p style="text-align:center;color:#777;">
+
+            สแกน QR เพื่อชำระเงิน
+
+        </p>
+
+
+
+    </div>
 
 
 
 
-    <h3>
-        QR พร้อมเพย์
-    </h3>
 
 
 
-    <img
-
-        id="qrImage"
-
-        src=""
-
-        width="250"
-
-        alt="QR Code">
+    <div class="bill-card">
 
 
-    <br><br>
+        <h3>
+            📤 แนบหลักฐานการชำระเงิน
+        </h3>
 
 
 
+        <input
 
-    <h3>
-        แนบสลิป
-    </h3>
+            type="file"
 
+            id="slip"
 
-
-    <input
-
-        type="file"
-
-        id="slip"
-
-        accept="image/*">
-
-
-
-    <br><br>
-
-
-
-    <img
-
-        id="preview"
-
-        src=""
-
-        style="display:none;width:250px;">
+            accept="image/*">
 
 
 
 
-    <br><br>
+
+        <br><br>
 
 
 
-    <button onclick="uploadPayment()">
+        <img
 
-        ส่งสลิป
+            id="preview"
 
-    </button>
+            src=""
+
+            style="
+            display:none;
+            width:100%;
+            border-radius:20px;
+            ">
+
+
+
+
+        <br><br>
+
+
+
+        <button onclick="uploadPayment()">
+
+            ✅ ส่งสลิป
+
+        </button>
+
+
+
+    </div>
+
+
 
 
 
@@ -139,7 +180,6 @@
 <script src="js/bill.js"></script>
 
 <script src="js/upload.js"></script>
-
 
 
 </body>
