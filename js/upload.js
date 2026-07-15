@@ -11,7 +11,6 @@ async function uploadPayment() {
 
         alert("กรุณาเลือกสลิป");
 
-
         return;
 
     }
@@ -34,7 +33,9 @@ async function uploadPayment() {
         try{
 
 
-            // 1. Upload รูปไป Drive
+            // =====================
+            // Upload Slip
+            // =====================
 
             const uploadResult =
             await postData({
@@ -63,7 +64,6 @@ async function uploadPayment() {
                     "อัปโหลดสลิปไม่สำเร็จ"
                 );
 
-
                 return;
 
             }
@@ -71,13 +71,15 @@ async function uploadPayment() {
 
 
 
-
-            // 2. ดึงข้อมูลผู้ใช้
-
             const user =
             JSON.parse(
                 localStorage.getItem("lineUser")
             );
+
+
+
+            const billId =
+            localStorage.getItem("billId");
 
 
 
@@ -88,7 +90,6 @@ async function uploadPayment() {
                     "ไม่พบรหัสนักศึกษา"
                 );
 
-
                 return;
 
             }
@@ -96,15 +97,12 @@ async function uploadPayment() {
 
 
 
+            // =====================
+            // Save Payment
+            // =====================
 
-            const billId =
-            localStorage.getItem("billId");
 
-
-
-            // 3. บันทึก Payment
-
-            const url =
+            const saveURL =
 
                 CONFIG.GAS_URL +
 
@@ -123,23 +121,23 @@ async function uploadPayment() {
 
             console.log(
                 "SAVE PAYMENT URL",
-                url
+                saveURL
             );
 
 
 
-            const paymentResponse =
-            await fetch(url);
+            const response =
+            await fetch(saveURL);
 
 
 
             const result =
-            await paymentResponse.json();
+            await response.json();
 
 
 
             console.log(
-                "PAYMENT RESULT",
+                "SAVE RESULT",
                 result
             );
 
@@ -153,8 +151,10 @@ async function uploadPayment() {
                 );
 
 
+
                 window.location.href =
                 "history.html";
+
 
 
             }
@@ -163,7 +163,7 @@ async function uploadPayment() {
 
                 alert(
                     result.message ||
-                    "บันทึกการชำระเงินไม่สำเร็จ"
+                    "บันทึกไม่สำเร็จ"
                 );
 
 
@@ -204,7 +204,9 @@ async function uploadPayment() {
 
 
 
-// Preview รูปสลิป
+// =====================
+// Preview Slip
+// =====================
 
 window.addEventListener(
 "load",
@@ -225,7 +227,6 @@ function(){
     function(){
 
 
-
         if(!this.files.length)
             return;
 
@@ -240,20 +241,19 @@ function(){
         function(e){
 
 
-
-            const img =
+            const preview =
             document.getElementById("preview");
 
 
 
-            if(img){
+            if(preview){
 
 
-                img.src =
+                preview.src =
                 e.target.result;
 
 
-                img.style.display =
+                preview.style.display =
                 "block";
 
 
@@ -269,9 +269,7 @@ function(){
         );
 
 
-
     });
-
 
 
 });
