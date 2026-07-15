@@ -1,3 +1,6 @@
+alert("โหลด bill.js แล้ว");
+
+
 window.onload = function () {
 
     loadBill();
@@ -8,6 +11,7 @@ window.onload = function () {
 
 async function loadBill() {
 
+
     const billId = localStorage.getItem("billId");
 
 
@@ -17,9 +21,12 @@ async function loadBill() {
 
     if (!billId) {
 
+
         alert("ไม่พบรายการบิล");
 
+
         window.location.href = "home.html";
+
 
         return;
 
@@ -57,7 +64,11 @@ async function loadBill() {
 
 
 
-        if (result.status !== "success") {
+        console.log("RESULT =", result);
+
+
+
+        if(result.status !== "success"){
 
 
             alert(
@@ -75,6 +86,9 @@ async function loadBill() {
         const bill = result.bill;
 
 
+        console.log("BILL DATA =", bill);
+
+
 
         document.getElementById("title").innerText =
             bill.Title || "-";
@@ -87,12 +101,11 @@ async function loadBill() {
 
 
         document.getElementById("dueDate").innerText =
-            bill.DueDate || "-";
+            formatDate(bill.DueDate);
 
 
 
-
-        if (bill.QRFileID) {
+        if(bill.QRFileID){
 
 
             document.getElementById("qrImage").src =
@@ -103,11 +116,11 @@ async function loadBill() {
 
 
         }
-        else {
+        else{
 
 
             document.getElementById("qrImage").alt =
-                "ไม่มี QR Code";
+            "ไม่มี QR Code";
 
 
         }
@@ -115,7 +128,7 @@ async function loadBill() {
 
 
     }
-    catch(err) {
+    catch(err){
 
 
         console.error(
@@ -125,8 +138,43 @@ async function loadBill() {
 
 
         alert(
-            "โหลดข้อมูลบิลไม่สำเร็จ"
+            "โหลดข้อมูลบิลไม่สำเร็จ\n" +
+            err.message
         );
+
+
+    }
+
+
+}
+
+
+
+
+
+function formatDate(date){
+
+
+    if(!date){
+
+        return "-";
+
+    }
+
+
+
+    try{
+
+
+        return new Date(date)
+        .toLocaleDateString("th-TH");
+
+
+    }
+    catch(e){
+
+
+        return date;
 
 
     }
