@@ -1,32 +1,215 @@
-
-*{box-sizing:border-box;font-family:Inter,"Noto Sans Thai",sans-serif}
-body{margin:0;background:linear-gradient(180deg,#eef7ff,#fff);color:#243447}
-.container{max-width:430px;margin:auto;padding:16px}
-.header{display:flex;gap:16px;align-items:center;padding:20px;border-radius:24px;background:linear-gradient(135deg,#33a8ff,#00c6ff);color:#fff;box-shadow:0 10px 30px rgba(0,150,255,.25);margin-bottom:20px}
-.header img{width:70px;height:70px;border-radius:50%;border:3px solid #fff;object-fit:cover}
-.header h2{margin:0;font-size:22px}.header p{margin:6px 0 0;opacity:.95}
-.bill-card{background:#fff;border-radius:22px;padding:18px;margin:16px 0;box-shadow:0 10px 25px rgba(0,0,0,.08);transition:.25s}
-.bill-card:hover{transform:translateY(-3px)}
-.bill-card h2,.bill-card h3{margin:0 0 14px;color:#1677d8}
-button{width:100%;border:0;border-radius:16px;padding:15px;background:linear-gradient(135deg,#2196f3,#00c6ff);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
-button:active{transform:scale(.98)}
-input[type=text],input[type=password],input[type=file]{width:100%;padding:14px;border-radius:14px;border:1px solid #d8e1ea;font-size:15px}
-input:focus{outline:none;border-color:#2196f3;box-shadow:0 0 0 4px rgba(33,150,243,.15)}
-#qrImage{display:block;max-width:100%;width:250px;margin:16px auto;padding:12px;background:#fff;border-radius:20px;box-shadow:0 8px 20px rgba(0,0,0,.1)}
-#preview{display:block;max-width:100%;margin:16px auto;border-radius:16px}
-.status{display:inline-block;padding:8px 14px;border-radius:999px;background:#fff3cd;color:#856404;font-weight:600}
-hr{border:none;height:1px;background:#e9eef3;margin:20px 0}
-#billList p,#paymentList p,#status{text-align:center;color:#7a8898}
-h1{text-align:center;font-size:34px;margin:10px 0;color:#06c755}
-.logo{display:block;margin:20px auto;width:100px}
-@media (max-width:430px){
-.container{padding:14px}
-.header{padding:18px;border-radius:20px}
-.header img{width:60px;height:60px}
-.header h2{font-size:20px}
-button{padding:14px}
-h1{font-size:30px}
+* {
+  box-sizing: border-box;
+  font-family: Inter, "Noto Sans Thai", sans-serif;
+  margin: 0;
+  padding: 0;
 }
-@media (min-width:768px){
-.container{max-width:520px;padding:24px}
+
+body {
+  background: linear-gradient(180deg, #eef7ff, #fff);
+  color: #243447;
+  line-height: 1.6; /* ป้องกันตัวหนังสือทับกันในแนวตั้ง */
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px; /* ขยายขนาดให้อ่านง่ายขึ้นเล็กน้อย */
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* --- Header Section --- */
+.header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #33a8ff, #00c6ff);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 150, 255, .25);
+  margin-bottom: 20px;
+}
+
+.header img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  flex-shrink: 0; /* ล็อคขนาดรูปไม่ให้โดนบีบเบี้ยวบนมือถือจอแคบ */
+}
+
+/* เพิ่มคลาสนี้ครอบ Text ใน Header เพื่อให้จัดระเบียบง่ายขึ้น */
+.header-info {
+  flex: 1;
+  min-width: 0; /* บังคับให้ข้อความยอมตัดคำ ไม่ดันจอเบี้ยว */
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.header p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: .95;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* --- Cards --- */
+.bill-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.bill-card:hover {
+  transform: translateY(-3px);
+}
+
+.bill-card h2, .bill-card h3 {
+  margin: 0 0 12px;
+  color: #1677d8;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* --- Form Inputs & Buttons --- */
+input[type=text], input[type=password], input[type=file] {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #d8e1ea;
+  font-size: 15px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 4px rgba(33,150,243,.15);
+}
+
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  padding: 15px;
+  background: linear-gradient(135deg, #2196f3, #00c6ff);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+/* --- Images & Elements --- */
+#qrImage {
+  display: block;
+  max-width: 100%;
+  width: 220px;
+  margin: 16px auto;
+  padding: 12px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.1);
+}
+
+#preview {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 16px auto;
+  border-radius: 16px;
+}
+
+.status {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff3cd;
+  color: #856404;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #e9eef3;
+  margin: 20px 0;
+}
+
+#billList p, #paymentList p, #status {
+  text-align: center;
+  color: #7a8898;
+  font-size: 14px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin: 10px 0;
+  color: #06c755;
+  line-height: 1.3;
+}
+
+.logo {
+  display: block;
+  margin: 20px auto;
+  width: 90px;
+  height: auto;
+}
+
+/* --- Responsive สำหรับหน้าจอมือถือขนาดเล็กมาก (เช่น iPhone SE) --- */
+@media (max-width: 375px) {
+  .container {
+    padding: 12px;
+  }
+  .header {
+    padding: 14px;
+    gap: 12px;
+    border-radius: 16px;
+  }
+  .header img {
+    width: 50px;
+    height: 50px;
+  }
+  .header h2 {
+    font-size: 17px;
+  }
+  .header p {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* --- Responsive สำหรับแท็บเล็ต/เดสก์ท็อป --- */
+@media (min-width: 768px) {
+  .container {
+    max-width: 520px;
+    padding: 24px;
+  }
 }
