@@ -2,6 +2,7 @@
     box-sizing:border-box;
     font-family:
     "Noto Sans Thai",
+    "Arial",
     sans-serif;
 }
 
@@ -10,22 +11,31 @@ body{
 
     margin:0;
 
-    background:#f5f7fb;
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #e8fff1,
+        #f5f7ff
+    );
 
     color:#333;
 
 }
 
 
+
 .container{
 
-    max-width:420px;
+    max-width:430px;
 
     margin:auto;
 
     padding:20px;
 
 }
+
 
 
 
@@ -39,12 +49,15 @@ body{
 
     background:white;
 
-    padding:18px;
+    padding:20px;
 
-    border-radius:20px;
+    border-radius:28px;
 
     box-shadow:
-    0 5px 15px rgba(0,0,0,.08);
+    0 10px 25px rgba(0,0,0,.08);
+
+    animation:
+    fade .5s;
 
 }
 
@@ -54,7 +67,10 @@ body{
 
     border-radius:50%;
 
+    border:4px solid #06c755;
+
 }
+
 
 
 
@@ -62,7 +78,7 @@ body{
 
     margin:0;
 
-    font-size:20px;
+    font-size:22px;
 
 }
 
@@ -72,15 +88,7 @@ body{
 
     margin:5px 0 0;
 
-    color:#777;
-
-}
-
-
-
-h3{
-
-    margin-top:25px;
+    color:#888;
 
 }
 
@@ -92,20 +100,26 @@ h3{
 
     background:white;
 
-    padding:20px;
+    padding:22px;
 
-    margin:15px 0;
+    margin-top:18px;
 
-    border-radius:20px;
+    border-radius:28px;
 
     box-shadow:
-    0 5px 15px rgba(0,0,0,.08);
+
+    0 12px 30px rgba(0,0,0,.08);
+
+    animation:
+    fade .4s;
 
 }
 
 
 
-.bill-card h3{
+
+
+.bill-card h2{
 
     margin-top:0;
 
@@ -115,87 +129,152 @@ h3{
 
 
 
-.bill-card p{
+.bill-card h3{
 
-    margin:8px 0;
+    margin-top:0;
+
+    font-size:20px;
 
 }
+
+
+
+
+.bill-card p{
+
+    font-size:15px;
+
+    color:#666;
+
+}
+
+
 
 
 
 button{
 
+
     width:100%;
 
-    padding:14px;
+    margin-top:15px;
+
+    padding:15px;
+
 
     border:none;
 
-    border-radius:15px;
+    border-radius:20px;
 
-    background:#06c755;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #06c755,
+        #00a94f
+    );
+
 
     color:white;
 
-    font-size:16px;
+    font-size:17px;
 
     font-weight:bold;
 
-    cursor:pointer;
+
+    box-shadow:
+
+    0 8px 20px rgba(6,199,85,.35);
+
 
 }
+
 
 
 
 button:active{
 
-    transform:scale(.97);
+    transform:scale(.96);
 
 }
 
-
-
-input[type="file"]{
-
-    width:100%;
-
-    padding:10px;
-
-    background:white;
-
-    border-radius:12px;
-
-}
 
 
 
 #qrImage{
 
+
     display:block;
 
-    margin:auto;
+
+    margin:20px auto;
+
+
+    padding:15px;
+
 
     background:white;
 
-    padding:10px;
 
-    border-radius:20px;
+    border-radius:25px;
+
+
+    box-shadow:
+
+    0 8px 20px rgba(0,0,0,.1);
+
 
 }
+
+
+
+
+input[type="file"]{
+
+
+    width:100%;
+
+
+    padding:14px;
+
+
+    border-radius:18px;
+
+
+    border:2px dashed #06c755;
+
+
+    background:#f7fff9;
+
+
+}
+
 
 
 
 .status{
 
+
     display:inline-block;
 
-    padding:5px 12px;
 
-    border-radius:20px;
+    padding:7px 16px;
 
-    background:#eee;
+
+    border-radius:30px;
+
+
+    background:#fff3cd;
+
+
+    color:#856404;
+
+
+    font-weight:bold;
 
 }
+
 
 
 
@@ -205,6 +284,35 @@ hr{
 
     border-top:1px solid #eee;
 
-    margin:25px 0;
+    margin:20px 0;
+
+}
+
+
+
+
+
+@keyframes fade{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(15px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+
+    }
+
 
 }
