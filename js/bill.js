@@ -8,21 +8,18 @@ window.onload = function () {
 
 async function loadBill() {
 
+    const billId = localStorage.getItem("billId");
 
-    const billId =
-    localStorage.getItem("billId");
+
+    console.log("BILL ID =", billId);
 
 
 
     if (!billId) {
 
+        alert("ไม่พบรายการบิล");
 
-        alert("ไม่พบรายการ");
-
-
-        window.location.href =
-        "home.html";
-
+        window.location.href = "home.html";
 
         return;
 
@@ -33,28 +30,40 @@ async function loadBill() {
     try {
 
 
-
-        const response = await fetch(
-
+        const url =
             CONFIG.GAS_URL +
-
             "?action=getBill&billId=" +
-
-            encodeURIComponent(billId)
-
-        );
+            encodeURIComponent(billId);
 
 
 
-        const result =
-        await response.json();
+        console.log("REQUEST =", url);
 
 
 
-        if(result.status !== "success"){
+        const response = await fetch(url);
 
 
-            alert(result.message);
+
+        const text = await response.text();
+
+
+
+        console.log("GAS RESPONSE =", text);
+
+
+
+        const result = JSON.parse(text);
+
+
+
+        if (result.status !== "success") {
+
+
+            alert(
+                result.message ||
+                "ไม่พบข้อมูลบิล"
+            );
 
 
             return;
@@ -63,63 +72,61 @@ async function loadBill() {
 
 
 
-
-        const bill =
-        result.bill;
+        const bill = result.bill;
 
 
 
         document.getElementById("title").innerText =
-            bill.Title;
+            bill.Title || "-";
 
 
 
         document.getElementById("amount").innerText =
-            bill.Amount;
+            bill.Amount || "0";
 
 
 
         document.getElementById("dueDate").innerText =
-            bill.DueDate;
+            bill.DueDate || "-";
 
 
 
 
-        // แสดง QR พร้อมเพย์
-
-        if(bill.QRFileID){
+        if (bill.QRFileID) {
 
 
             document.getElementById("qrImage").src =
 
-                "https://drive.google.com/thumbnail?id="
-
-                + bill.QRFileID
-
-                + "&sz=w1000";
+                "https://drive.google.com/thumbnail?id=" +
+                bill.QRFileID +
+                "&sz=w1000";
 
 
         }
-        else{
+        else {
 
 
             document.getElementById("qrImage").alt =
-            "ไม่มี QR";
+                "ไม่มี QR Code";
 
 
         }
-
 
 
 
     }
-    catch(err){
+    catch(err) {
 
 
-        console.error(err);
+        console.error(
+            "LOAD BILL ERROR",
+            err
+        );
 
 
-        alert("เกิดข้อผิดพลาดในการโหลดข้อมูล");
+        alert(
+            "โหลดข้อมูลบิลไม่สำเร็จ"
+        );
 
 
     }
