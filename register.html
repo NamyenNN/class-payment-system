@@ -3,46 +3,57 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ลงทะเบียน</title>
+    <title>ลงทะเบียน</title>
 
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 </head>
 
-
 <body>
 
-<div class="container">
+    <div class="container register-card">
 
-<h2>กรอกรหัสนักศึกษา</h2>
+        <div class="logo">
+            🎓
+        </div>
 
+        <h2>ลงทะเบียน</h2>
 
-<input 
-id="studentID"
-placeholder="รหัสนักศึกษา">
+        <p class="subtitle">
+            กรอกรหัสนักศึกษาเพื่อเริ่มใช้งาน
+        </p>
 
+        <div class="input-group">
 
-<br><br>
+            <label>
+                รหัสนักศึกษา
+            </label>
 
+            <input
+                type="text"
+                id="studentID"
+                placeholder="เช่น 69010123"
+                maxlength="8">
 
-<button onclick="registerStudent()">
-ยืนยัน
-</button>
+        </div>
 
+        <button onclick="registerStudent()">
+            ลงทะเบียน
+        </button>
 
-<p id="status"></p>
+        <p id="status"></p>
 
+    </div>
 
-</div>
-
-
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/register.js"></script>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/register.js"></script>
 
 </body>
 
