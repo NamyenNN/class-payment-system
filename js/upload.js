@@ -2,7 +2,7 @@ async function uploadPayment() {
 
 
     const fileInput =
-        document.getElementById("slip");
+    document.getElementById("slip");
 
 
 
@@ -18,12 +18,12 @@ async function uploadPayment() {
 
 
     const file =
-        fileInput.files[0];
+    fileInput.files[0];
 
 
 
     const reader =
-        new FileReader();
+    new FileReader();
 
 
 
@@ -32,10 +32,6 @@ async function uploadPayment() {
 
         try{
 
-
-            // =====================
-            // Upload Slip
-            // =====================
 
             const uploadResult =
             await postData({
@@ -71,6 +67,7 @@ async function uploadPayment() {
 
 
 
+
             const user =
             JSON.parse(
                 localStorage.getItem("lineUser")
@@ -97,10 +94,6 @@ async function uploadPayment() {
 
 
 
-            // =====================
-            // Save Payment
-            // =====================
-
 
             const saveURL =
 
@@ -116,13 +109,6 @@ async function uploadPayment() {
 
                 "&slipFileId=" +
                 encodeURIComponent(uploadResult.fileId);
-
-
-
-            console.log(
-                "SAVE PAYMENT URL",
-                saveURL
-            );
 
 
 
@@ -151,10 +137,10 @@ async function uploadPayment() {
                 );
 
 
-
-                window.location.href =
-                "history.html";
-
+                // แก้ตรงนี้
+                window.location.replace(
+                    "./history.html"
+                );
 
 
             }
@@ -204,9 +190,6 @@ async function uploadPayment() {
 
 
 
-// =====================
-// Preview Slip
-// =====================
 
 window.addEventListener(
 "load",
@@ -218,7 +201,8 @@ function(){
 
 
 
-    if(!slip) return;
+    if(!slip)
+        return;
 
 
 
@@ -267,6 +251,7 @@ function(){
         reader.readAsDataURL(
             this.files[0]
         );
+
 
 
     });
