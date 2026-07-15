@@ -1,11 +1,16 @@
 async function uploadPayment() {
 
-    const fileInput = document.getElementById("slip");
+
+    const fileInput =
+        document.getElementById("slip");
 
 
-    if (!fileInput || fileInput.files.length === 0) {
+
+    if(!fileInput || fileInput.files.length === 0){
+
 
         alert("กรุณาเลือกสลิป");
+
 
         return;
 
@@ -13,35 +18,51 @@ async function uploadPayment() {
 
 
 
-    const file = fileInput.files[0];
-
-
-    const reader = new FileReader();
+    const file =
+        fileInput.files[0];
 
 
 
-    reader.onload = async function (e) {
+    const reader =
+        new FileReader();
 
 
-        try {
+
+    reader.onload = async function(e){
 
 
-            const uploadResult = await postData({
+        try{
 
-                action: "uploadSlip",
 
-                file: e.target.result,
+            // 1. Upload รูปไป Drive
 
-                fileName: file.name
+            const uploadResult =
+            await postData({
+
+                action:"uploadSlip",
+
+                file:e.target.result,
+
+                fileName:file.name
 
             });
+
+
+
+            console.log(
+                "UPLOAD RESULT",
+                uploadResult
+            );
 
 
 
             if(uploadResult.status !== "success"){
 
 
-                alert("อัปโหลดรูปไม่สำเร็จ");
+                alert(
+                    "อัปโหลดสลิปไม่สำเร็จ"
+                );
+
 
                 return;
 
@@ -50,8 +71,29 @@ async function uploadPayment() {
 
 
 
+
+            // 2. ดึงข้อมูลผู้ใช้
+
             const user =
-            JSON.parse(localStorage.getItem("lineUser"));
+            JSON.parse(
+                localStorage.getItem("lineUser")
+            );
+
+
+
+            if(!user || !user.studentID){
+
+
+                alert(
+                    "ไม่พบรหัสนักศึกษา"
+                );
+
+
+                return;
+
+            }
+
+
 
 
 
@@ -60,7 +102,9 @@ async function uploadPayment() {
 
 
 
-            const payment = await fetch(
+            // 3. บันทึก Payment
+
+            const url =
 
                 CONFIG.GAS_URL +
 
@@ -70,24 +114,43 @@ async function uploadPayment() {
                 encodeURIComponent(billId) +
 
                 "&studentId=" +
-                encodeURIComponent(user.studentID || "") +
+                encodeURIComponent(user.studentID) +
 
                 "&slipFileId=" +
-                encodeURIComponent(uploadResult.fileId)
+                encodeURIComponent(uploadResult.fileId);
 
+
+
+            console.log(
+                "SAVE PAYMENT URL",
+                url
             );
 
 
 
+            const paymentResponse =
+            await fetch(url);
+
+
+
             const result =
-            await payment.json();
+            await paymentResponse.json();
+
+
+
+            console.log(
+                "PAYMENT RESULT",
+                result
+            );
 
 
 
             if(result.status === "success"){
 
 
-                alert("ส่งสลิปเรียบร้อย");
+                alert(
+                    "ส่งสลิปเรียบร้อย"
+                );
 
 
                 window.location.href =
@@ -98,7 +161,10 @@ async function uploadPayment() {
             else{
 
 
-                alert(result.message);
+                alert(
+                    result.message ||
+                    "บันทึกการชำระเงินไม่สำเร็จ"
+                );
 
 
             }
@@ -109,10 +175,16 @@ async function uploadPayment() {
         catch(err){
 
 
-            console.error(err);
+            console.error(
+                "UPLOAD ERROR",
+                err
+            );
 
 
-            alert("เกิดข้อผิดพลาด");
+            alert(
+                "เกิดข้อผิดพลาด\n" +
+                err.message
+            );
 
 
         }
@@ -130,9 +202,13 @@ async function uploadPayment() {
 
 
 
-// Preview รูป หลังหน้าเว็บโหลดเสร็จ
 
-window.onload = function(){
+
+// Preview รูปสลิป
+
+window.addEventListener(
+"load",
+function(){
 
 
     const slip =
@@ -140,54 +216,62 @@ window.onload = function(){
 
 
 
-    if(slip){
-
-
-        slip.addEventListener("change", function(){
-
-
-            if(!this.files.length) return;
+    if(!slip) return;
 
 
 
-            const reader =
-            new FileReader();
+    slip.addEventListener(
+    "change",
+    function(){
 
 
 
-            reader.onload = function(e){
-
-
-                const img =
-                document.getElementById("preview");
+        if(!this.files.length)
+            return;
 
 
 
-                if(img){
-
-
-                    img.src =
-                    e.target.result;
-
-
-                    img.style.display =
-                    "block";
-
-
-                }
-
-
-            };
+        const reader =
+        new FileReader();
 
 
 
-            reader.readAsDataURL(this.files[0]);
+        reader.onload =
+        function(e){
 
 
-        });
+
+            const img =
+            document.getElementById("preview");
 
 
-    }
+
+            if(img){
 
 
-};
+                img.src =
+                e.target.result;
+
+
+                img.style.display =
+                "block";
+
+
+            }
+
+
+        };
+
+
+
+        reader.readAsDataURL(
+            this.files[0]
+        );
+
+
+
+    });
+
+
+
+});
