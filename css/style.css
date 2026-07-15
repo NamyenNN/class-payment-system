@@ -213,3 +213,152 @@ h1 {
     padding: 24px;
   }
 }
+/* ===== Register ===== */
+
+.register-card{
+
+    max-width:420px;
+
+    width:90%;
+
+    text-align:center;
+
+}
+
+.logo{
+
+    font-size:60px;
+
+    margin-bottom:10px;
+
+    animation:float 3s ease-in-out infinite;
+
+}
+
+.subtitle{
+
+    color:#666;
+
+    margin-top:-5px;
+
+    margin-bottom:25px;
+
+    font-size:15px;
+
+}
+
+.input-group{
+
+    text-align:left;
+
+    margin-bottom:20px;
+
+}
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:500;
+
+    color:#333;
+
+}
+
+.input-group input{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    background:rgba(255,255,255,.65);
+
+    backdrop-filter:blur(10px);
+
+    font-size:16px;
+
+    transition:.3s;
+
+    box-sizing:border-box;
+
+}
+
+.input-group input:focus{
+
+    outline:none;
+
+    border-color:#4f8cff;
+
+    box-shadow:0 0 15px rgba(79,140,255,.3);
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#4f8cff,#6f6bff);
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(79,140,255,.35);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+#status{
+
+    margin-top:18px;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+@keyframes float{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+}
