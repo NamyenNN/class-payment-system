@@ -1,5 +1,6 @@
 window.onload = async function () {
 
+
     const user = JSON.parse(
         localStorage.getItem("lineUser")
     );
@@ -28,7 +29,6 @@ window.onload = async function () {
     }
 
 
-
     loadBills();
 
 
@@ -40,20 +40,22 @@ window.onload = async function () {
 
 async function loadBills() {
 
+
     try {
 
 
         const res = await fetch(
 
             CONFIG.GAS_URL +
-
             "?action=getBills"
 
         );
 
 
-        const result =
-        await res.json();
+        const result = await res.json();
+
+
+        console.log("BILLS =", result);
 
 
 
@@ -68,72 +70,43 @@ async function loadBills() {
 
         if(result.status !== "success"){
 
-
             billList.innerHTML =
-            "<p>ไม่พบข้อมูลรายการชำระเงิน</p>";
+            "<p>โหลดรายการไม่สำเร็จ</p>";
 
             return;
 
         }
-
-
-
-
-
-        if(result.bills.length === 0){
-
-
-            billList.innerHTML =
-            "<p>ยังไม่มีรายการชำระเงิน</p>";
-
-            return;
-
-        }
-
 
 
 
         result.bills.forEach(bill => {
 
 
-
             billList.innerHTML += `
-
 
             <div class="bill-card">
 
-
-                <h3>
-                    ${bill.Title}
-                </h3>
-
+                <h3>${bill.Title}</h3>
 
                 <p>
-                    <b>ยอดเงิน :</b>
-                    ${bill.Amount}
-                    บาท
+                จำนวนเงิน : ${bill.Amount} บาท
                 </p>
-
 
                 <p>
-                    <b>ครบกำหนด :</b>
-                    ${bill.DueDate}
+                ครบกำหนด : ${bill.DueDate}
                 </p>
-
 
 
                 <button onclick="openBill('${bill.BillID}')">
 
-                    ชำระเงิน
+                ชำระเงิน
 
                 </button>
 
 
             </div>
 
-
             `;
-
 
 
         });
@@ -143,16 +116,9 @@ async function loadBills() {
     }
     catch(err){
 
-
         console.error(err);
 
-
-        document.getElementById("billList").innerHTML =
-        "<p>โหลดข้อมูลไม่สำเร็จ</p>";
-
-
     }
-
 
 }
 
@@ -163,12 +129,19 @@ async function loadBills() {
 function openBill(billId){
 
 
+    console.log("CLICK BILL =", billId);
+
+
     localStorage.setItem(
-
         "billId",
+        String(billId)
+    );
 
-        billId
 
+
+    console.log(
+        "SAVE BILL ID =",
+        localStorage.getItem("billId")
     );
 
 
