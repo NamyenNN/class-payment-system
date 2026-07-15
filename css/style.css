@@ -362,46 +362,64 @@ button:active{
     }
 
 }
-<!DOCTYPE html>
-<html lang="th">
 
-<head>
+.alert-box{
 
-<meta charset="UTF-8">
+    position:fixed;
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    top:20px;
 
-<title>ประวัติการชำระ</title>
+    left:50%;
 
-<link rel="stylesheet" href="css/style.css">
+    transform:translateX(-50%);
 
-</head>
+    padding:15px 25px;
 
+    border-radius:15px;
 
-<body>
+    background:white;
 
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
 
-<div class="container">
+    font-weight:500;
 
-<h2>
-ประวัติการชำระ
-</h2>
+    z-index:999;
 
+    animation:slideDown .3s;
 
-<div id="paymentList">
-
-กำลังโหลด...
-
-</div>
+}
 
 
-</div>
+.alert-box.success{
+
+    border-left:5px solid #22c55e;
+
+}
 
 
-<script src="js/config.js"></script>
-<script src="js/history.js"></script>
+.alert-box.error{
+
+    border-left:5px solid #ef4444;
+
+}
 
 
-</body>
+@keyframes slideDown{
 
-</html>
+    from{
+
+        opacity:0;
+
+        transform:translate(-50%,-20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translate(-50%,0);
+
+    }
+
+}
