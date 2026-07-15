@@ -1,134 +1,43 @@
-function doGet(e){
+<!DOCTYPE html>
+<html lang="th">
 
-  try{
+<head>
 
-    const action = e.parameter.action;
+<meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    if(action === "getStudent"){
-      return getStudent(e);
-    }
+<title>ประวัติการชำระ</title>
 
+<link rel="stylesheet" href="css/style.css">
 
-    if(action === "getBills"){
-      return getBills(e);
-    }
+</head>
 
 
-    if(action === "getBill"){
-      return getBill(e);
-    }
+<body>
 
 
-    if(action === "savePayment"){
-      return savePayment(e);
-    }
+<div class="container">
 
+<h2>
+ประวัติการชำระ
+</h2>
 
-    if(action === "getPayments"){
-      return getPayments(e);
-    }
 
+<div id="paymentList">
 
-    if(action === "adminLogin"){
-      return adminLogin(e);
-    }
+กำลังโหลด...
 
+</div>
 
 
-    return jsonResponse({
+</div>
 
-      status:"error",
 
-      message:"Unknown action"
+<script src="js/config.js"></script>
+<script src="js/history.js"></script>
 
-    });
 
+</body>
 
-  }catch(err){
-
-
-    return jsonResponse({
-
-      status:"error",
-
-      message:err.toString()
-
-    });
-
-
-  }
-
-}
-
-
-
-
-
-function doPost(e){
-
-  try{
-
-
-    const data = JSON.parse(
-      e.postData.contents
-    );
-
-
-
-    if(data.action === "registerLine"){
-
-      return registerLine(data);
-
-    }
-
-
-
-    if(data.action === "uploadSlip"){
-
-      const result = uploadSlip(
-        data.file,
-        data.fileName
-      );
-
-
-      return jsonResponse({
-
-        status:"success",
-
-        fileId:result.fileId,
-
-        url:result.url
-
-      });
-
-    }
-
-
-
-
-    return jsonResponse({
-
-      status:"error",
-
-      message:"Unknown POST"
-
-    });
-
-
-
-  }catch(err){
-
-
-    return jsonResponse({
-
-      status:"error",
-
-      message:err.toString()
-
-    });
-
-
-  }
-
-}
+</html>
