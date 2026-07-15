@@ -1,134 +1,121 @@
-function doGet(e){
+window.onload = function(){
 
-  try{
+    loadPayments();
 
-    const action = e.parameter.action;
-
-
-    if(action === "getStudent"){
-      return getStudent(e);
-    }
-
-
-    if(action === "getBills"){
-      return getBills(e);
-    }
-
-
-    if(action === "getBill"){
-      return getBill(e);
-    }
-
-
-    if(action === "savePayment"){
-      return savePayment(e);
-    }
-
-
-    if(action === "getPayments"){
-      return getPayments(e);
-    }
-
-
-    if(action === "adminLogin"){
-      return adminLogin(e);
-    }
+};
 
 
 
-    return jsonResponse({
-
-      status:"error",
-
-      message:"Unknown action"
-
-    });
+async function loadPayments(){
 
 
-  }catch(err){
-
-
-    return jsonResponse({
-
-      status:"error",
-
-      message:err.toString()
-
-    });
-
-
-  }
-
-}
-
-
-
-
-
-function doPost(e){
-
-  try{
-
-
-    const data = JSON.parse(
-      e.postData.contents
+    const user =
+    JSON.parse(
+        localStorage.getItem("lineUser")
     );
 
 
 
-    if(data.action === "registerLine"){
+    if(!user){
 
-      return registerLine(data);
+        window.location.href =
+        "index.html";
 
-    }
-
-
-
-    if(data.action === "uploadSlip"){
-
-      const result = uploadSlip(
-        data.file,
-        data.fileName
-      );
-
-
-      return jsonResponse({
-
-        status:"success",
-
-        fileId:result.fileId,
-
-        url:result.url
-
-      });
+        return;
 
     }
 
 
 
-
-    return jsonResponse({
-
-      status:"error",
-
-      message:"Unknown POST"
-
-    });
+    try{
 
 
+        const response =
+        await fetch(
 
-  }catch(err){
+            CONFIG.GAS_URL +
+
+            "?action=getPayments" +
+
+            "&studentId=" +
+
+            encodeURIComponent(
+                user.studentID
+            )
+
+        );
 
 
-    return jsonResponse({
 
-      status:"error",
-
-      message:err.toString()
-
-    });
+        const result =
+        await response.json();
 
 
-  }
+
+        const list =
+        document.getElementById(
+            "paymentList"
+        );
+
+
+
+        list.innerHTML = "";
+
+
+
+        if(result.status !== "success" ||
+           result.payments.length === 0){
+
+
+            list.innerHTML =
+            "<p>ยังไม่มีประวัติการชำระ</p>";
+
+            return;
+
+        }
+
+
+
+        result.payments.forEach(p => {
+
+
+            list.innerHTML += `
+
+            <div class="bill-card">
+
+                <p>
+                รายการ: ${p.BillID}
+                </p>
+
+                <p>
+                สถานะ:
+                ${p.Status}
+                </p>
+
+                <p>
+                เวลา:
+                ${p.UploadTime}
+                </p>
+
+            </div>
+
+            `;
+
+
+        });
+
+
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        document.getElementById(
+            "paymentList"
+        ).innerHTML =
+        "โหลดข้อมูลไม่สำเร็จ";
+
+    }
 
 }
