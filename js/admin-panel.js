@@ -1,3 +1,7 @@
+let currentTab = "pending";
+
+
+
 window.onload = function(){
 
     loadPayments();
@@ -52,7 +56,66 @@ async function loadPayments(){
 
 
 
-        result.payments.forEach(payment => {
+        const payments = result.payments.filter(payment => {
+
+
+
+            // รอยืนยัน
+
+            if(currentTab === "pending"){
+
+
+                return payment.Status !== "ผ่าน";
+
+
+            }
+
+
+
+
+            // ยืนยันแล้ว
+
+            if(currentTab === "approved"){
+
+
+                return payment.Status === "ผ่าน";
+
+
+            }
+
+
+
+            return true;
+
+
+        });
+
+
+
+
+
+
+
+        if(payments.length === 0){
+
+
+            list.innerHTML =
+
+            "<p>ไม่มีรายการ</p>";
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+
+        payments.forEach(payment => {
 
 
 
@@ -96,9 +159,16 @@ async function loadPayments(){
 
 
 
+                ${
+                currentTab === "pending"
+
+                ?
+
+                `
+
                 <button onclick="updateStatus('${payment.PaymentID}','ผ่าน')">
 
-                    ผ่าน
+                    ✅ ผ่าน
 
                 </button>
 
@@ -106,9 +176,17 @@ async function loadPayments(){
 
                 <button onclick="updateStatus('${payment.PaymentID}','ไม่ผ่าน')">
 
-                    ไม่ผ่าน
+                    ❌ ไม่ผ่าน
 
                 </button>
+
+                `
+
+                :
+
+                ""
+
+                }
 
 
 
@@ -148,9 +226,11 @@ async function updateStatus(paymentId,status){
         "?action=updatePayment" +
 
         "&paymentId=" +
+
         encodeURIComponent(paymentId) +
 
         "&status=" +
+
         encodeURIComponent(status)
 
     );
@@ -158,12 +238,29 @@ async function updateStatus(paymentId,status){
 
 
     const result =
+
     await res.json();
 
 
 
     alert(result.message);
 
+
+
+    loadPayments();
+
+
+}
+
+
+
+
+
+
+function changeTab(tab){
+
+
+    currentTab = tab;
 
 
     loadPayments();
