@@ -43,10 +43,6 @@ async function loadBill() {
 
 
 
-        console.log("REQUEST =", url);
-
-
-
         const response = await fetch(url);
 
 
@@ -60,10 +56,6 @@ async function loadBill() {
 
 
         const result = JSON.parse(text);
-
-
-
-        console.log("RESULT =", result);
 
 
 
@@ -83,10 +75,6 @@ async function loadBill() {
 
 
         const bill = result.bill;
-
-
-
-        console.log("BILL DATA =", bill);
 
 
 
@@ -122,6 +110,10 @@ async function loadBill() {
 
 
 
+
+
+        // QR เริ่มต้น = 1 ตัว
+
         if(bill.QRFileID){
 
 
@@ -134,20 +126,87 @@ async function loadBill() {
             + "&sz=w1000";
 
 
-
             qrImage.alt =
             "QR Code";
 
 
         }
-        else{
 
 
-            qrImage.alt =
-            "ไม่มี QR Code";
 
 
-        }
+
+
+        // เปลี่ยนตามจำนวนที่เลือก
+
+        const packs =
+        document.querySelectorAll(
+            'input[name="pack"]'
+        );
+
+
+
+        packs.forEach(pack => {
+
+
+            pack.addEventListener(
+                "change",
+                function(){
+
+
+
+                    // เลือก 1 ตัว
+
+                    if(this.value === "1"){
+
+
+                        amount.innerText =
+                        bill.Amount;
+
+
+
+                        qrImage.src =
+
+                        "https://drive.google.com/thumbnail?id="
+
+                        + bill.QRFileID
+
+                        + "&sz=w1000";
+
+
+                    }
+
+
+
+
+                    // เลือก 2 ตัว
+
+                    if(this.value === "2"){
+
+
+                        amount.innerText =
+                        bill.Amount2;
+
+
+
+                        qrImage.src =
+
+                        "https://drive.google.com/thumbnail?id="
+
+                        + bill.QRFileID2
+
+                        + "&sz=w1000";
+
+
+                    }
+
+
+
+                }
+            );
+
+
+        });
 
 
 
@@ -185,14 +244,18 @@ function formatDate(date){
     }
 
 
+
     const d = new Date(date);
+
 
 
     if(isNaN(d)){
 
+
         return date;
 
     }
+
 
 
     return d.toLocaleDateString(
