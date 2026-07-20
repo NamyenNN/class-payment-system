@@ -1,9 +1,8 @@
-async function savePayment() {
+async function uploadPayment() {
 
-    const fileInput =
-    document.getElementById("slip");
+    const fileInput = document.getElementById("slip");
 
-    if(!fileInput || fileInput.files.length === 0){
+    if (!fileInput || fileInput.files.length === 0) {
         alert("กรุณาเลือกสลิป");
         return;
     }
@@ -11,31 +10,27 @@ async function savePayment() {
     const file = fileInput.files[0];
     const reader = new FileReader();
 
-    reader.onload = async function(e){
+    reader.onload = async function(e) {
 
-        try{
+        try {
 
-            const uploadResult =
-            await postData({
-                action:"uploadSlip",
-                file:e.target.result,
-                fileName:file.name
+            const uploadResult = await postData({
+                action: "uploadSlip",
+                file: e.target.result,
+                fileName: file.name
             });
 
             console.log("UPLOAD RESULT", uploadResult);
 
-            if(uploadResult.status !== "success"){
+            if (uploadResult.status !== "success") {
                 alert("อัปโหลดสลิปไม่สำเร็จ");
                 return;
             }
 
-            const user =
-            JSON.parse(localStorage.getItem("lineUser"));
+            const user = JSON.parse(localStorage.getItem("lineUser"));
+            const billId = localStorage.getItem("billId");
 
-            const billId =
-            localStorage.getItem("billId");
-
-            if(!user || !user.studentID){
+            if (!user || !user.studentID) {
                 alert("ไม่พบรหัสนักศึกษา");
                 return;
             }
@@ -52,14 +47,14 @@ async function savePayment() {
 
             console.log("SAVE RESULT", result);
 
-            if(result.status === "success"){
+            if (result.status === "success") {
                 alert("ส่งสลิปเรียบร้อย");
                 window.location.replace("./history.html");
-            }else{
+            } else {
                 alert(result.message || "บันทึกไม่สำเร็จ");
             }
 
-        }catch(err){
+        } catch (err) {
 
             console.error("UPLOAD ERROR", err);
             alert("เกิดข้อผิดพลาด\n" + err.message);
